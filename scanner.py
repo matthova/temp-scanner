@@ -3,7 +3,7 @@ import serial
 from time import sleep
 
 # Create logging file
-logging.basicConfig(filename='temp.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+logging.basicConfig(filename='/home/pi/temp-scanner/temp.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
 
 # Global boolean for if the serial port is open
 serial_is_open = False
