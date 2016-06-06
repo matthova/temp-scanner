@@ -1,20 +1,22 @@
-from time import sleep
+import logging
 import serial
+from time import sleep
 
-opened = False
+# Create logging file
+logging.basicConfig(filename='temp.log', level=logging.DEBUG, format='%(asctime)s %(message)s')
+
+# Global boolean for if the serial port is open
+serial_is_open = False
 
 with serial.Serial('/dev/ttyACM0', 115200, timeout=1) as ser:
     while True:
-	if opened == True:
-	    ser.write('M105\n')
+        if serial_is_open:
+            ser.write('M105\n')
             sleep(1)
             line = ser.readline()
-            with open('test.txt', 'a') as f:
-                print line
-                f.write(line)
-	else:
+            logging.info(line)
+        else:
             line = ser.readline()   # read a '\n' terminated line
-	    if line == 'echo:  M200 D0\n':
-                print 'done opening'
-                opened = True
-
+            if line == 'echo:  M200 D0\n':
+                logging.info('Serial port opened')
+                serial_is_open = True
